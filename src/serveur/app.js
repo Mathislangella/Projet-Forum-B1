@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Fichiers statiques (CSS, JS, images)
-app.use(express.static(path.join(__dirname, "../style")));
+app.use(express.static(path.join(__dirname, "../../public")));
 
 // Routes
 const routes = require("./routes");
