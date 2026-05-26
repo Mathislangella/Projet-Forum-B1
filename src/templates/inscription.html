@@ -19,7 +19,8 @@
     <main>
         <div class="form-container">
             <h2>Créer un compte</h2>
-            <form method="POST" action="/api/register">
+            <div id="message"></div>
+            <form id="inscriptionForm">
                 <div class="form-group">
                     <label for="username">Nom d'utilisateur:</label>
                     <input type="text" id="username" name="username" required>
@@ -49,5 +50,7 @@
     <footer>
         <p>&copy; 2026 Forum. Tous droits réservés.</p>
     </footer>
+
+    <script src="/js/inscription.js"></script>
 </body>
 </html>
