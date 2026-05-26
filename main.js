@@ -1,3 +1,6 @@
+// Initialize database
+require("./src/database/db");
+
 const app = require("./src/serveur/app");
 
 const PORT = 3000;
