@@ -1,7 +1,7 @@
 const path = require("path");
 
-function homeHandler(req, res) {
-  res.sendFile(path.join(__dirname, "../../templates/index.html"));
+function homePageHandler(req, res) {
+  res.sendFile(path.join(__dirname, "../../templates/home.html"));
 }
 
-module.exports = { homeHandler };
+module.exports = { homePageHandler };

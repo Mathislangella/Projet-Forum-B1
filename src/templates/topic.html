@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Accueil - Forum</title>
+</head>
+<body class="page">
+    <!-- Page top -->
+    <header class="site-header">
+        <div class="header-content">
+            <!-- Logo home -->
+            <div class="header-logo">
+                <a href="/home" class="brand-title">Forum</a>
+            </div>
+            <!-- Search Bar -->
+            <form class="search-form">
+                <button type="submit" class="search-button">
+                    <img src="/images/icon/search.png" alt="Recherche">
+                </button>
+
+                <input type="search" name="q" placeholder="Rechercher..." class="search-input">
+
+                <div class="search-option">
+                    <div>
+                        <input type="radio" name="type" value="users" id="type-users">
+                        <label for="type-users">
+                            <img src="/images/icon/user.png" alt="Utilisateurs">
+                        </label>
+                    </div>
+
+                    <div>
+                        <input type="radio" name="type" value="posts" id="type-posts" checked>
+                        <label for="type-posts">
+                            <img src="/images/icon/post.png" alt="Posts">
+                        </label>
+                    </div>
+                </div>
+            </form>
+            <!-- Navigation -->
+            <nav class="header-nav">
+
+            </nav>
+
+        </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="container">
+       <main class="content search-page">
+
+        <section class="search-panel">
+            <div class="search-panel-header">
+                <h1>Search the Community</h1>
+
+                <div class="search-tabs">
+                    <button class="tab active">Content Search</button>
+                    <button class="tab">Member Search</button>
+                </div>
+            </div>
+
+            <form class="search-page-form">
+                <input type="search" name="q" placeholder="Search..." value="boufton">
+                <button type="submit">Search</button>
+            </form>
+
+            <div class="search-results-header">
+                <h2>20 results found for “boufton”</h2>
+
+                <label>
+                    Sort by
+                    <select name="sort">
+                        <option>Relevance</option>
+                        <option>Newest first</option>
+                        <option>Oldest first</option>
+                        <option>Most viewed</option>
+                    </select>
+                </label>
+            </div>
+
+            <article class="search-result">
+                <div class="result-stats">
+                    <span>4</span>
+                    <small>replies</small>
+                    <span>240</span>
+                    <small>views</small>
+                </div>
+
+                <div class="result-content">
+                    <h3>Quête secrète : Journal mystérieux</h3>
+                    <p class="result-meta">
+                        Posted by <strong>Yugo87Yugo</strong> in Discussions Générales
+                    </p>
+                    <p>
+                        Salut, je suis bloqué dans la quête du Journal Mystérieux.
+                        Est-ce que quelqu’un peut m’aider ?
+                    </p>
+                </div>
+            </article>
+
+            <article class="search-result">
+                <div class="result-stats">
+                    <span>8</span>
+                    <small>replies</small>
+                    <span>512</span>
+                    <small>views</small>
+                </div>
+
+                <div class="result-content">
+                    <h3>Besoin d’aide pour trouver le Boufton rare</h3>
+                    <p class="result-meta">
+                        Posted by <strong>NovaPrime</strong> in Aide & Questions
+                    </p>
+                    <p>
+                        J’ai cherché dans plusieurs zones mais impossible de le faire apparaître.
+                        Quelqu’un connaît son spawn exact ?
+                    </p>
+                </div>
+            </article>
+
+        </section>
+
+        <aside class="search-sidebar">
+            <h2>Refine Search</h2>
+
+            <div class="filter-box">
+                <h3>Search In</h3>
+
+                <label>
+                    <input type="radio" name="filter-type" checked>
+                    Topics
+                </label>
+
+                <label>
+                    <input type="radio" name="filter-type">
+                    Posts
+                </label>
+            </div>
+
+            <div class="filter-box">
+                <h3>Forums</h3>
+                <select>
+                    <option>All forums</option>
+                    <option>Discussions Générales</option>
+                    <option>Aide & Questions</option>
+                    <option>Annonces</option>
+                </select>
+            </div>
+
+            <div class="filter-box">
+                <h3>Author</h3>
+                <input type="text" placeholder="Member name">
+            </div>
+
+            <div class="filter-box">
+                <h3>Date Created</h3>
+                <select>
+                    <option>Any time</option>
+                    <option>Past 24 hours</option>
+                    <option>Past week</option>
+                    <option>Past month</option>
+                </select>
+            </div>
+
+            <div class="filter-box">
+                <h3>Content Type</h3>
+
+                <label>
+                    <input type="checkbox" checked>
+                    Topics
+                </label>
+
+                <label>
+                    <input type="checkbox" checked>
+                    Replies
+                </label>
+            </div>
+        </aside>
+
+    </main>
+    </div>
+
+    <!-- Page bottom -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Fake Forum. ANY rights reserved.</p>
+    </footer>
+
+    <script>
+    document.querySelector('.search-input').addEventListener('focus', function () {
+        document.querySelector('.search-form').classList.add('focus');
+    });
+
+    document.querySelector('.search-input').addEventListener('blur', function () {
+        document.querySelector('.search-form').classList.remove('focus');
+    });
+    </script>
+</body>
+</html>

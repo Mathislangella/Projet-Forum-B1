@@ -3,37 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forum - Accueil</title>
     <link rel="stylesheet" href="/css/style.css">
+    <title>Accueil - Forum</title>
 </head>
-<body>
-    <header>
-        <h1>Forum de Discussion</h1>
-        <nav>
-            <a href="/">Accueil</a>
-            <a href="/connexion">Connexion</a>
-            <a href="/inscription">Inscription</a>
-        </nav>
-    </header>
-    
-    <main>
-        <h2>Bienvenue sur notre forum !</h2>
-        <p>Partagez vos idées et discutez avec la communauté.</p>
-        
-        <div class="forum-sections">
-            <section>
-                <h3>Catégories</h3>
-                <ul>
-                    <li>Général</li>
-                    <li>Technologie</li>
-                    <li>Loisirs</li>
-                </ul>
-            </section>
+<body class="page">
+    <!-- Page top -->
+    <header class="site-header">
+        <div class="header-content">
+            <div class="header-logo">
+                <a href="/" class="brand-title">Forum</a>
+            </div>
+            <nav class="header-nav">
+                <a href="/inscription" class="nav-link">Inscription</a>
+                <a href="/connexion" class="nav-link">Connexion</a>
+            </nav>
         </div>
-    </main>
-    
-    <footer>
-        <p>&copy; 2026 Forum. Tous droits réservés.</p>
+    </header>
+
+    <!-- Page content -->
+    <div class="container">
+        <main class="content">
+
+            <section class="hero-section">
+                <h1>Bienvenue sur Forum</h1>
+
+                <p>
+                    Rejoins une communauté de joueurs, développeurs et passionnés.
+                    Discute avec les autres membres, partage tes projets et découvre
+                    de nouveaux sujets chaque jour.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="/inscription" class="hero-button primary">
+                        Créer un compte
+                    </a>
+                    
+                    <a href="/connexion" class="hero-button secondary">
+                        Se connecter
+                    </a>
+                </div>
+            </section>
+
+            <section class="features-section">
+
+                <div class="feature-card">
+                    <h2>Discussions</h2>
+                    <p>
+                        Participe à des conversations sur les jeux vidéo,
+                        la programmation, la technologie et bien plus encore.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <h2>Communauté</h2>
+                    <p>
+                        Rencontre d'autres passionnés et échange avec des membres
+                        du monde entier.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <h2>Projets</h2>
+                    <p>
+                        Présente tes créations, demande des conseils et partage
+                        ton expérience avec la communauté.
+                    </p>
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Page bottom -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Fake Forum. ANY rights reserved.</p>
     </footer>
 </body>
 </html>

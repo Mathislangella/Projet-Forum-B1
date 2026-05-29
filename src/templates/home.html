@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Accueil - Forum</title>
+</head>
+<body class="page">
+    <!-- Page top -->
+    <header class="site-header">
+        <div class="header-content">
+            <!-- Logo home -->
+            <div class="header-logo">
+                <a href="/home" class="brand-title">Forum</a>
+            </div>
+            <!-- Search Bar -->
+            <form class="search-form" href="/search">
+                <button type="submit" class="search-button">
+                    <img src="/images/icon/search.png" alt="Recherche">
+                </button>
+
+                <input type="search" name="q" placeholder="Rechercher..." class="search-input">
+
+                <div class="search-option">
+                    <div>
+                        <input type="radio" name="type" value="users" id="type-users">
+                        <label for="type-users">
+                            <img src="/images/icon/user.png" alt="Utilisateurs">
+                        </label>
+                    </div>
+
+                    <div>
+                        <input type="radio" name="type" value="posts" id="type-posts" checked>
+                        <label for="type-posts">
+                            <img src="/images/icon/post.png" alt="Posts">
+                        </label>
+                    </div>
+                </div>
+            </form>
+            <!-- Navigation -->
+            <nav class="header-nav">
+
+            </nav>
+
+        </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="container">
+       <main class="content">
+            <section class="home-header">
+                <h1>Accueil</h1>
+                <p>Bienvenue sur le forum.</p>
+            </section>
+
+            <section class="forum-actions">
+                <a href="/posts/create" class="action-button">
+                    ➕ Nouveau sujet
+                </a>
+            </section>
+
+            <section class="recent-posts">
+
+                <div class="post-card">
+                    <h3>Titre du sujet</h3>
+                    <p>Auteur • il y a 2 heures</p>
+                </div>
+
+                <div class="post-card">
+                    <h3>Mon projet Roblox</h3>
+                    <p>Matis • il y a 5 heures</p>
+                </div>
+
+                <div class="post-card">
+                    <h3>Besoin d'aide en JavaScript</h3>
+                    <p>User123 • il y a 1 jour</p>
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Page bottom -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Fake Forum. ANY rights reserved.</p>
+    </footer>
+
+    <script>
+    document.querySelector('.search-input').addEventListener('focus', function () {
+        document.querySelector('.search-form').classList.add('focus');
+    });
+
+    document.querySelector('.search-input').addEventListener('blur', function () {
+        document.querySelector('.search-form').classList.remove('focus');
+    });
+    </script>
+</body>
+</html>

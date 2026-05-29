@@ -7,15 +7,20 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Forum de Discussion</h1>
-        <nav>
-            <a href="/">Accueil</a>
-            <a href="/connexion">Connexion</a>
-            <a href="/inscription">Inscription</a>
-        </nav>
+    <!-- Page top -->
+    <header class="site-header">
+        <div class="header-content">
+            <div class="header-logo">
+                <a href="/" class="brand-title">Forum</a>
+            </div>
+            <nav class="header-nav">
+                <a href="/inscription" class="nav-link">Inscription</a>
+                <a href="/connexion" class="nav-link">Connexion</a>
+            </nav>
+        </div>
     </header>
     
+     <!-- Page content -->
     <main>
         <div class="form-container">
             <h2>Créer un compte</h2>
@@ -33,12 +38,12 @@
                 
                 <div class="form-group">
                     <label for="password">Mot de passe:</label>
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" placeholder="minimum 8 caractères" name="password" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="confirm-password">Confirmer le mot de passe:</label>
-                    <input type="password" id="confirm-password" name="confirm-password" required>
+                    <input type="password" id="confirm-password"  placeholder="identique au mot de passe" name="confirm-password" required>
                 </div>
                 
                 <button type="submit">S'inscrire</button>
@@ -47,8 +52,9 @@
         </div>
     </main>
     
-    <footer>
-        <p>&copy; 2026 Forum. Tous droits réservés.</p>
+    <!-- Page bottom -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Fake Forum. ANY rights reserved.</p>
     </footer>
 
     <script src="/js/inscription.js"></script>
