@@ -6,7 +6,7 @@ document.getElementById('connexionForm').addEventListener('submit', async (e) =>
     const messageDiv = document.getElementById('message');
 
     try {
-        const response = await fetch('/api/login', {
+        const response = await fetch('/connexion', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

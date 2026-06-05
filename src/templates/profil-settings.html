@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Paramètres du compte - Forum</title>
+</head>
+<body class="page">
+    <!-- Page top -->
+    <header class="site-header">
+        <div class="header-content">
+            <div class="header-logo">
+                <a href="/home" class="brand-title">Forum</a>
+            </div>
+            <form class="search-form" action="/search" method="get">
+                <button type="submit" class="search-button">
+                    <img src="/images/icon/search.png" alt="Recherche">
+                </button>
+                <input type="search" name="q" placeholder="Rechercher..." class="search-input">
+                <div class="search-option">
+                    <div>
+                        <input type="radio" name="type" value="users" id="type-users">
+                        <label for="type-users">
+                            <img src="/images/icon/user.png" alt="Utilisateurs">
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" name="type" value="posts" id="type-posts" checked>
+                        <label for="type-posts">
+                            <img src="/images/icon/post.png" alt="Posts">
+                        </label>
+                    </div>
+                </div>
+            </form>
+            <!-- User Menu Dropdown -->
+            <div class="user-menu-container">
+                <button class="user-menu-trigger">
+                    <img src="/images/avatar.png" alt="Avatar" class="user-avatar">
+                    <span class="user-name">Kiritolange</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="user-menu-dropdown">
+                    <div class="menu-section">
+                        <p class="menu-section-title">CONTENU</p>
+                        <a href="/profil" class="menu-item">👤 Profil</a>
+                    </div>
+                    <div class="menu-section">
+                        <p class="menu-section-title">PARAMÈTRES</p>
+                        <a href="/profil/edit" class="menu-item">✏️ Paramètres du compte</a>
+                        <a href="/profil/settings" class="menu-item">🔔 Utilisateurs ignorés</a>
+                        <a href="/logout" class="menu-item logout">🚪 Déconnexion</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="container">
+        <main class="content settings-page">
+            <!-- Back Link -->
+            <div class="back-link">
+                <a href="/profil">← Retour au profil</a>
+            </div>
+
+            <!-- Settings Header -->
+            <section class="settings-header">
+                <h1>Paramètres du compte</h1>
+                <p>Gérez vos préférences et vos paramètres de sécurité</p>
+            </section>
+
+            <!-- Settings Tabs -->
+            <div class="settings-tabs">
+                <button class="settings-tab active" data-tab="general">Général</button>
+                <button class="settings-tab" data-tab="security">Sécurité</button>
+                <button class="settings-tab" data-tab="notifications">Notifications</button>
+                <button class="settings-tab" data-tab="privacy">Confidentialité</button>
+            </div>
+
+            <!-- General Settings -->
+            <section class="settings-tab-content active" id="tab-general">
+                <div class="settings-panel">
+                    <h2>Préférences générales</h2>
+                    
+                    <div class="settings-group">
+                        <h3>Langue</h3>
+                        <select class="settings-input">
+                            <option value="fr">Français</option>
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                        </select>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Thème</h3>
+                        <div class="theme-selector">
+                            <label>
+                                <input type="radio" name="theme" value="dark">
+                                <span class="theme-option dark">Sombre</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="theme" value="light">
+                                <span class="theme-option light">Clair</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Afficher mon statut en ligne</h3>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Afficher le profil publiquement</h3>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <button class="save-button">Enregistrer les paramètres</button>
+                </div>
+            </section>
+
+            <!-- Security Settings -->
+            <section class="settings-tab-content" id="tab-security">
+                <div class="settings-panel">
+                    <h2>Sécurité du compte</h2>
+
+                    <div class="settings-group">
+                        <h3>Mot de passe</h3>
+                        <p class="settings-description">Dernière modification : il y a 3 mois</p>
+                        <a href="#" class="edit-password-btn">Changer le mot de passe</a>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Authentification à deux facteurs</h3>
+                        <p class="settings-description">Renforcez la sécurité de votre compte</p>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Sessions actives</h3>
+                        <p class="settings-description">Gérez vos sessions connectées</p>
+                        <div class="sessions-list">
+                            <div class="session-item">
+                                <div class="session-info">
+                                    <p class="session-name">💻 Windows 10 - Chrome</p>
+                                    <p class="session-meta">Dernière activité : maintenant</p>
+                                </div>
+                                <button class="session-disconnect-btn">Déconnecter</button>
+                            </div>
+                            <div class="session-item">
+                                <div class="session-info">
+                                    <p class="session-name">📱 iPhone - Safari</p>
+                                    <p class="session-meta">Dernière activité : il y a 2 heures</p>
+                                </div>
+                                <button class="session-disconnect-btn">Déconnecter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notifications Settings -->
+            <section class="settings-tab-content" id="tab-notifications">
+                <div class="settings-panel">
+                    <h2>Paramètres de notifications</h2>
+
+                    <div class="settings-group">
+                        <h3>Réponses à mes sujets</h3>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Mentions</h3>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Nouveaux messages privés</h3>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Newsletter du forum</h3>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <button class="save-button">Enregistrer les notifications</button>
+                </div>
+            </section>
+
+            <!-- Privacy Settings -->
+            <section class="settings-tab-content" id="tab-privacy">
+                <div class="settings-panel">
+                    <h2>Confidentialité</h2>
+
+                    <div class="settings-group">
+                        <h3>Qui peut me contacter</h3>
+                        <select class="settings-input">
+                            <option value="all">Tout le monde</option>
+                            <option value="members">Membres uniquement</option>
+                            <option value="none">Personne</option>
+                        </select>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Qui peut voir mon profil</h3>
+                        <select class="settings-input">
+                            <option value="all">Tout le monde</option>
+                            <option value="members">Membres uniquement</option>
+                            <option value="friends">Amis uniquement</option>
+                        </select>
+                    </div>
+
+                    <div class="settings-group danger-zone">
+                        <h3>Zone dangereuse</h3>
+                        <p class="settings-description">Ces actions sont irréversibles</p>
+                        <button class="delete-account-btn">Supprimer mon compte</button>
+                    </div>
+
+                    <button class="save-button">Enregistrer les paramètres de confidentialité</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Page bottom -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Fake Forum. ANY rights reserved.</p>
+    </footer>
+
+    <script>
+        // Tab switching
+        document.querySelectorAll('.settings-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabName = this.dataset.tab;
+                document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.settings-tab-content').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('tab-' + tabName).classList.add('active');
+            });
+        });
+
+        // Search form focus
+        document.querySelector('.search-input').addEventListener('focus', function () {
+            document.querySelector('.search-form').classList.add('focus');
+        });
+        document.querySelector('.search-input').addEventListener('blur', function () {
+            document.querySelector('.search-form').classList.remove('focus');
+        });
+
+        // User menu dropdown
+        const userMenuTrigger = document.querySelector('.user-menu-trigger');
+        const userMenuDropdown = document.querySelector('.user-menu-dropdown');
+
+        userMenuTrigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userMenuDropdown.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.user-menu-container')) {
+                userMenuDropdown.classList.remove('active');
+            }
+        });
+
+        // Close dropdown when clicking on a link
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                userMenuDropdown.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

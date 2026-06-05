@@ -8,7 +8,7 @@ document.getElementById('inscriptionForm').addEventListener('submit', async (e) 
     const messageDiv = document.getElementById('message');
 
     try {
-        const response = await fetch('/api/register', {
+        const response = await fetch('/inscription', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

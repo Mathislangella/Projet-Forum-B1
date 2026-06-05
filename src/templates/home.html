@@ -15,7 +15,7 @@
                 <a href="/home" class="brand-title">Forum</a>
             </div>
             <!-- Search Bar -->
-            <form class="search-form" href="/search">
+            <form class="search-form" action="/search" method="get">
                 <button type="submit" class="search-button">
                     <img src="/images/icon/search.png" alt="Recherche">
                 </button>
@@ -38,10 +38,26 @@
                     </div>
                 </div>
             </form>
-            <!-- Navigation -->
-            <nav class="header-nav">
-
-            </nav>
+            <!-- User Menu Dropdown -->
+            <div class="user-menu-container">
+                <button class="user-menu-trigger">
+                    <img src="/images/avatar.png" alt="Avatar" class="user-avatar">
+                    <span class="user-name">Kiritolange</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="user-menu-dropdown">
+                    <div class="menu-section">
+                        <p class="menu-section-title">CONTENU</p>
+                        <a href="/profil" class="menu-item">👤 Profil</a>
+                    </div>
+                    <div class="menu-section">
+                        <p class="menu-section-title">PARAMÈTRES</p>
+                        <a href="/profil/edit" class="menu-item">✏️ Paramètres du compte</a>
+                        <a href="/profil/settings" class="menu-item">🔔 Utilisateurs ignorés</a>
+                        <a href="/logout" class="menu-item logout">🚪 Déconnexion</a>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </header>
@@ -61,22 +77,6 @@
             </section>
 
             <section class="recent-posts">
-
-                <div class="post-card">
-                    <h3>Titre du sujet</h3>
-                    <p>Auteur • il y a 2 heures</p>
-                </div>
-
-                <div class="post-card">
-                    <h3>Mon projet Roblox</h3>
-                    <p>Matis • il y a 5 heures</p>
-                </div>
-
-                <div class="post-card">
-                    <h3>Besoin d'aide en JavaScript</h3>
-                    <p>User123 • il y a 1 jour</p>
-                </div>
-
             </section>
 
         </main>
@@ -88,12 +88,36 @@
     </footer>
 
     <script>
+    // Search form focus
     document.querySelector('.search-input').addEventListener('focus', function () {
         document.querySelector('.search-form').classList.add('focus');
     });
 
     document.querySelector('.search-input').addEventListener('blur', function () {
         document.querySelector('.search-form').classList.remove('focus');
+    });
+
+    // User menu dropdown
+    const userMenuTrigger = document.querySelector('.user-menu-trigger');
+    const userMenuDropdown = document.querySelector('.user-menu-dropdown');
+
+    userMenuTrigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        userMenuDropdown.classList.toggle('active');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.user-menu-container')) {
+            userMenuDropdown.classList.remove('active');
+        }
+    });
+
+    // Close dropdown when clicking on a link
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', function() {
+            userMenuDropdown.classList.remove('active');
+        });
     });
     </script>
 </body>

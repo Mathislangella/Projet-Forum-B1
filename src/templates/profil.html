@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Profil - Forum</title>
+</head>
+<body class="page">
+    <!-- Page top -->
+    <header class="site-header">
+        <div class="header-content">
+            <div class="header-logo">
+                <a href="/home" class="brand-title">Forum</a>
+            </div>
+            <form class="search-form" action="/search" method="get">
+                <button type="submit" class="search-button">
+                    <img src="/images/icon/search.png" alt="Recherche">
+                </button>
+                <input type="search" name="q" placeholder="Rechercher..." class="search-input">
+                <div class="search-option">
+                    <div>
+                        <input type="radio" name="type" value="users" id="type-users">
+                        <label for="type-users">
+                            <img src="/images/icon/user.png" alt="Utilisateurs">
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" name="type" value="posts" id="type-posts" checked>
+                        <label for="type-posts">
+                            <img src="/images/icon/post.png" alt="Posts">
+                        </label>
+                    </div>
+                </div>
+            </form>
+            <!-- User Menu Dropdown -->
+            <div class="user-menu-container">
+                <button class="user-menu-trigger">
+                    <img src="/images/avatar.png" alt="Avatar" class="user-avatar">
+                    <span class="user-name">Kiritolange</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="user-menu-dropdown">
+                    <div class="menu-section">
+                        <p class="menu-section-title">CONTENU</p>
+                        <a href="/profil" class="menu-item">👤 Profil</a>
+                    </div>
+                    <div class="menu-section">
+                        <p class="menu-section-title">PARAMÈTRES</p>
+                        <a href="/profil/edit" class="menu-item">✏️ Paramètres du compte</a>
+                        <a href="/profil/settings" class="menu-item">🔔 Utilisateurs ignorés</a>
+                        <a href="/logout" class="menu-item logout">🚪 Déconnexion</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Page content -->
+    <div class="container">
+        <main class="content profile-page">
+            <!-- Top Action Bar -->
+            <div class="profile-action-bar">
+                <a href="/profil/settings" class="action-link">
+                    <span>⚙️</span> Paramètres du compte
+                </a>
+                <a href="/profil/edit" class="action-link primary">
+                    <span>✎</span> Modifier le profil
+                </a>
+            </div>
+
+            <!-- Profile Banner -->
+            <section class="profile-banner">
+                <div class="profile-info">
+                    <div class="profile-avatar">
+                        <img src="/images/avatar.png" alt="Avatar profil">
+                    </div>
+                    <div class="profile-details">
+                    </div>
+                </div>
+                
+                <div class="profile-stats-bar">
+                </div>
+            </section>
+
+            <!-- Profile Reputation Section -->
+            <section class="profile-reputation">
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="profile-activity">
+                <h2>Activité récente</h2>
+                <div class="activity-container">
+                </div>
+            </section>
+
+            <!-- Account Actions -->
+            <section class="profile-footer-actions">
+                <a href="/logout" class="logout-button">Déconnexion</a>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Page bottom -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Fake Forum. ANY rights reserved.</p>
+    </footer>
+    <script>
+    // Search form focus
+    document.querySelector('.search-input').addEventListener('focus', function () {
+        document.querySelector('.search-form').classList.add('focus');
+    });
+    document.querySelector('.search-input').addEventListener('blur', function () {
+        document.querySelector('.search-form').classList.remove('focus');
+    });
+
+    // User menu dropdown
+    const userMenuTrigger = document.querySelector('.user-menu-trigger');
+    const userMenuDropdown = document.querySelector('.user-menu-dropdown');
+
+    userMenuTrigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        userMenuDropdown.classList.toggle('active');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.user-menu-container')) {
+            userMenuDropdown.classList.remove('active');
+        }
+    });
+
+    // Close dropdown when clicking on a link
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', function() {
+            userMenuDropdown.classList.remove('active');
+        });
+    });
+    </script>
+</body>
+</html>
