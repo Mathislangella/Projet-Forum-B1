@@ -37,19 +37,29 @@
             <div class="user-menu-container">
                 <button class="user-menu-trigger">
                     <img src="/images/avatar.png" alt="Avatar" class="user-avatar">
+                    
                     <span class="user-name">Kiritolange</span>
                     <span class="dropdown-arrow">▼</span>
                 </button>
                 <div class="user-menu-dropdown">
                     <div class="menu-section">
                         <p class="menu-section-title">CONTENU</p>
-                        <a href="/profil" class="menu-item">👤 Profil</a>
+
+                        <a href="/profil" class="menu-icon-item">
+                            <img src="/images/icon/user.png" alt="Profil">
+                            Profil
+                        </a>
                     </div>
                     <div class="menu-section">
                         <p class="menu-section-title">PARAMÈTRES</p>
-                        <a href="/profil/edit" class="menu-item">✏️ Paramètres du compte</a>
-                        <a href="/profil/settings" class="menu-item">🔔 Utilisateurs ignorés</a>
-                        <a href="/logout" class="menu-item logout">🚪 Déconnexion</a>
+                        <a href="/profil/edit" class="menu-icon-item">
+                            <img src="/images/icon/settings.png" alt="Profil">
+                            Paramètres du compte
+                        </a>
+                        <a href="/logout" class="menu-icon-item logout">
+                            <img src="/images/icon/logout.png" alt="Profil">
+                            Déconnexion
+                        </a>
                     </div>
                 </div>
             </div>
@@ -67,8 +77,10 @@
                 <form class="search-page-form" action="/search" method="get">
                     <input type="search" name="q" placeholder="Rechercher..." value="">
                     <select name="type" class="search-type-filter">
+                        <option value="All">Tout</option>
                         <option value="posts">Sujets</option>
                         <option value="users">Utilisateurs</option>
+                        <option value="messages">Messages</option>
                     </select>
                     <button type="submit">Rechercher</button>
                 </form>
@@ -90,14 +102,9 @@
 
             <aside class="search-sidebar">
                 <h2>Filtres</h2>
+                
                 <div class="filter-box">
-                    <h3>Type de recherche</h3>
-                    <label><input type="radio" name="filter-type" checked> Sujets</label>
-                    <label><input type="radio" name="filter-type"> Messages</label>
-                    <label><input type="radio" name="filter-type"> Membres</label>
-                </div>
-                <div class="filter-box">
-                    <h3>Forums</h3>
+                    <h3>Catégorie</h3>
                     <select>
                         <option>Tous</option>
                         <option>Discussions Générales</option>
@@ -117,11 +124,6 @@
                         <option>Dernière semaine</option>
                         <option>Dernier mois</option>
                     </select>
-                </div>
-                <div class="filter-box">
-                    <h3>Type de contenu</h3>
-                    <label><input type="checkbox" checked> Sujets</label>
-                    <label><input type="checkbox" checked> Réponses</label>
                 </div>
             </aside>
         </main>

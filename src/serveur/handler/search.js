@@ -1,7 +1,7 @@
-const path = require("path");
+const searchPageHandler = (req, res) => {
+  res.render("search");
+};
 
-function searchPageHandler(req, res) {
-  res.sendFile(path.join(__dirname, "../../templates/search.html"));
-}
-
-module.exports = { searchPageHandler };
+module.exports = {
+  searchPageHandler
+};

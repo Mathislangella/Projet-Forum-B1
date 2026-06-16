@@ -1,41 +1,48 @@
-document.getElementById('inscriptionForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+const form = document.getElementById("inscriptionForm");
+const message = document.getElementById("message");
 
-    const username = document.getElementById('username').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirm-password').value;
-    const messageDiv = document.getElementById('message');
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    try {
-        const response = await fetch('/inscription', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username,
-                email,
-                password,
-                'confirm-password': confirmPassword
-            })
-        });
+  message.textContent = "";
 
-        const data = await response.json();
+  const username = form.username.value;
+  const email = form.email.value;
+  const password = form.password.value;
+  const confirm = form["confirm-password"].value;
 
-        if (response.ok) {
-            messageDiv.style.color = 'green';
-            messageDiv.textContent =  data.message;
-            document.getElementById('inscriptionForm').reset();
-            setTimeout(() => {
-                window.location.href = '/connexion';
-            }, 2000);
-        } else {
-            messageDiv.style.color = 'red';
-            messageDiv.textContent =  data.error;
-        }
-    } catch (err) {
-        messageDiv.style.color = 'red';
-        messageDiv.textContent = err.message;
+  if (password !== confirm) {
+    message.textContent = "Les mots de passe ne correspondent pas";
+    message.style.color = "red";
+    return;
+  }
+
+  try {
+    const res = await fetch("/inscription", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, email, password })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      message.textContent = data.error || "Erreur inscription";
+      message.style.color = "red";
+      return;
     }
+
+    message.textContent = "Compte créé avec succès";
+    message.style.color = "green";
+
+    setTimeout(() => {
+      window.location.href = "/home";
+    }, 500);
+
+  } catch (err) {
+    message.textContent = "Erreur serveur";
+    message.style.color = "red";
+  }
 });

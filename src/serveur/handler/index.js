@@ -1,7 +1,7 @@
-const path = require("path");
+const indexPageHandler = (req, res) => {
+  res.sendFile("index.html", { root: "src/templates" });
+};
 
-function indexPageHandler(req, res) {
-  res.sendFile(path.join(__dirname, "../../templates/index.html"));
-}
-
-module.exports = { indexPageHandler };
+module.exports = {
+  indexPageHandler
+};

@@ -1,11 +1,14 @@
-const path = require("path");
+const db = require("../../database/db-functions");
 
-function homePageHandler(req, res) {
-  res.sendFile(path.join(__dirname, "../../templates/home.html"));
-}
+const homePageHandler = (req, res) => {
+  const posts = db.getAllPosts();
 
-function homePosetHandler(req, res) {
-  res.status(200).json({ message: "Bienvenue sur la page d'accueil du forum !" });
-}
+  res.render("home", {
+    posts,
+    user: req.session.user || null
+  });
+};
 
-module.exports = { homePageHandler, homePosetHandler };
+module.exports = {
+  homePageHandler
+};

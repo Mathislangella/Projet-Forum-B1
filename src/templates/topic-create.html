@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/style.css">
-    <title>Accueil - Forum</title>
+    <title>Créer un sujet - Forum</title>
 </head>
 <body class="page">
+
     <!-- Page top -->
     <header class="site-header">
         <div class="header-content">
-            <!-- Logo home -->
+
             <div class="header-logo">
                 <a href="/home" class="brand-title">Forum</a>
             </div>
-            <!-- Search Bar -->
+
             <form class="search-form" action="/search" method="get">
                 <button type="submit" class="search-button">
                     <img src="/images/icon/search.png" alt="Recherche">
@@ -38,6 +39,7 @@
                     </div>
                 </div>
             </form>
+
             <!-- User Menu Dropdown -->
             <div class="user-menu-container">
                 <button class="user-menu-trigger">
@@ -45,17 +47,32 @@
                     <span class="user-name">Kiritolange</span>
                     <span class="dropdown-arrow">▼</span>
                 </button>
+
                 <div class="user-menu-dropdown">
+
                     <div class="menu-section">
                         <p class="menu-section-title">CONTENU</p>
-                        <a href="/profil" class="menu-item">👤 Profil</a>
+
+                        <a href="/profil" class="menu-icon-item">
+                            <img src="/images/icon/user.png" alt="Profil">
+                            Profil
+                        </a>
                     </div>
+
                     <div class="menu-section">
                         <p class="menu-section-title">PARAMÈTRES</p>
-                        <a href="/profil/edit" class="menu-item">✏️ Paramètres du compte</a>
-                        <a href="/profil/settings" class="menu-item">🔔 Utilisateurs ignorés</a>
-                        <a href="/logout" class="menu-item logout">🚪 Déconnexion</a>
+
+                        <a href="/profil/edit" class="menu-icon-item">
+                            <img src="/images/icon/settings.png" alt="Paramètres">
+                            Paramètres du compte
+                        </a>
+
+                        <a href="/logout" class="menu-icon-item logout">
+                            <img src="/images/icon/logout.png" alt="Déconnexion">
+                            Déconnexion
+                        </a>
                     </div>
+
                 </div>
             </div>
 
@@ -64,22 +81,66 @@
 
     <!-- Page content -->
     <div class="container">
-       <main class="content">
-            <section class="home-header">
-                <h1>Accueil</h1>
-                <p>Bienvenue sur le forum.</p>
+
+        <main class="content topic-create-page">
+
+            <section class="topic-header">
+                <h1>Créer un nouveau sujet</h1>
+                <p>Partagez une question, une idée ou lancez une discussion avec la communauté.</p>
             </section>
 
-            <section class="forum-actions">
-                <a href="/posts/create" class="action-button">
-                    ➕ Nouveau sujet
-                </a>
-            </section>
+            <section class="topic-create-section">
 
-            <section class="recent-posts">
+                <form class="topic-create-form" action="/topic/create" method="post">
+
+                    <div class="form-group">
+                        <label for="title">Titre du sujet</label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            maxlength="100"
+                            placeholder="Ex : Comment optimiser un jeu Roblox ?"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Catégorie</label>
+
+                        <select id="category" name="categoryId" required>
+                            <option value="">Sélectionner une catégorie</option>
+                            <option value="1">Général</option>
+                            <option value="2">Programmation</option>
+                            <option value="3">Jeux vidéo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="body">Contenu</label>
+
+                        <textarea
+                            id="body"
+                            name="body"
+                            rows="12"
+                            placeholder="Décrivez votre sujet..."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="action-button">
+                            Publier le sujet
+                        </button>
+                    </div>
+
+                </form>
+
             </section>
 
         </main>
+
     </div>
 
     <!-- Page bottom -->
@@ -88,6 +149,7 @@
     </footer>
 
     <script>
+
     // Search form focus
     document.querySelector('.search-input').addEventListener('focus', function () {
         document.querySelector('.search-form').classList.add('focus');
@@ -106,19 +168,19 @@
         userMenuDropdown.classList.toggle('active');
     });
 
-    // Close dropdown when clicking outside
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.user-menu-container')) {
             userMenuDropdown.classList.remove('active');
-        }I
+        }
     });
 
-    // Close dropdown when clicking on a link
-    document.querySelectorAll('.menu-item').forEach(item => {
+    document.querySelectorAll('.menu-icon-item').forEach(item => {
         item.addEventListener('click', function() {
             userMenuDropdown.classList.remove('active');
         });
     });
+
     </script>
+
 </body>
 </html>
