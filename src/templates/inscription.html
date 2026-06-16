@@ -7,54 +7,49 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <!-- Page top -->
     <header class="site-header">
         <div class="header-content">
             <div class="header-logo">
-                <a href="/" class="brand-title">Forum</a>
+                <a href="/home" class="brand-title">Forum</a>
             </div>
             <nav class="header-nav">
-                <a href="/inscription" class="nav-link">Inscription</a>
                 <a href="/connexion" class="nav-link">Connexion</a>
+                <a href="/inscription" class="nav-link">Inscription</a>
             </nav>
         </div>
     </header>
-    
-     <!-- Page content -->
-    <main>
-        <div class="form-container">
-            <h2>Créer un compte</h2>
-            <div id="message"></div>
-            <form id="inscriptionForm">
-                <div class="form-group">
-                    <label for="username">Nom d'utilisateur:</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Mot de passe:</label>
-                    <input type="password" id="password" placeholder="minimum 8 caractères" name="password" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="confirm-password">Confirmer le mot de passe:</label>
-                    <input type="password" id="confirm-password"  placeholder="identique au mot de passe" name="confirm-password" required>
-                </div>
-                
-                <button type="submit">S'inscrire</button>
-            </form>
-            <p>Vous avez déjà un compte ? <a href="/connexion">Se connecter</a></p>
-        </div>
-    </main>
-    
-    <!-- Page bottom -->
+
+    <div class="container">
+        <main>
+            <div class="form-container">
+                <h2>Créer un compte</h2>
+                <div id="message"></div>
+                <form id="inscriptionForm">
+                    <div class="form-group">
+                        <label for="username">Nom d'utilisateur</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirmer le mot de passe</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required>
+                    </div>
+                    <button type="submit">S'inscrire</button>
+                </form>
+                <p>Déjà un compte ? <a href="/connexion">Se connecter</a></p>
+            </div>
+        </main>
+    </div>
+
     <footer class="site-footer">
-        <p>&copy; 2026 Fake Forum. ANY rights reserved.</p>
+        <p>&copy; 2026 Forum. Tous droits réservés.</p>
     </footer>
 
     <script src="/js/inscription.js"></script>

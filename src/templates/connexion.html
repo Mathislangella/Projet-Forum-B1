@@ -7,44 +7,41 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-     <!-- Page top -->
     <header class="site-header">
         <div class="header-content">
             <div class="header-logo">
-                <a href="/" class="brand-title">Forum</a>
+                <a href="/home" class="brand-title">Forum</a>
             </div>
             <nav class="header-nav">
-                <a href="/inscription" class="nav-link">Inscription</a>
                 <a href="/connexion" class="nav-link">Connexion</a>
+                <a href="/inscription" class="nav-link">Inscription</a>
             </nav>
         </div>
     </header>
-    
-     <!-- Page content -->
-    <main>
-        <div class="form-container">
-            <h2>Se connecter</h2>
-            <div id="message"></div>
-            <form id="connexionForm">
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Mot de passe:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                
-                <button type="submit">Se connecter</button>
-            </form>
-            <p>Pas encore de compte ? <a href="/inscription">S'inscrire</a></p>
-        </div>
-    </main>
-    
-    <!-- Page bottom -->
+
+    <div class="container">
+        <main>
+            <div class="form-container">
+                <h2>Se connecter</h2>
+                <div id="message"></div>
+                <form id="connexionForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit">Se connecter</button>
+                </form>
+                <p>Pas encore de compte ? <a href="/inscription">S'inscrire</a></p>
+            </div>
+        </main>
+    </div>
+
     <footer class="site-footer">
-        <p>&copy; 2026 Fake Forum. ANY rights reserved.</p>
+        <p>&copy; 2026 Forum. Tous droits réservés.</p>
     </footer>
 
     <script src="/js/connexion.js"></script>

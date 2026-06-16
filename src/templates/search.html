@@ -1,169 +1,113 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
     <title>Recherche - Forum</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
-<body class="page">
-    <!-- Page top -->
+<body>
     <header class="site-header">
         <div class="header-content">
-            <div class="header-logo">
-                <a href="/home" class="brand-title">Forum</a>
-            </div>
-            <form class="search-form" action="/search" method="get">
-                <button type="submit" class="search-button">
-                    <img src="/images/icon/search.png" alt="Recherche">
-                </button>
-                <input type="search" name="q" placeholder="Rechercher..." class="search-input">
+            <div class="header-logo"><a href="/home" class="brand-title">Forum</a></div>
+            <form class="search-form" id="searchForm">
+                <button type="submit" class="search-button"><img src="/images/icon/search.png" alt=""></button>
+                <input type="search" name="q" id="searchInput" placeholder="Rechercher..." class="search-input">
                 <div class="search-option">
-                    <div>
-                        <input type="radio" name="type" value="users" id="type-users">
-                        <label for="type-users">
-                            <img src="/images/icon/user.png" alt="Utilisateurs">
-                        </label>
-                    </div>
-                    <div>
-                        <input type="radio" name="type" value="posts" id="type-posts" checked>
-                        <label for="type-posts">
-                            <img src="/images/icon/post.png" alt="Posts">
-                        </label>
-                    </div>
+                    <div><input type="radio" name="type" value="users" id="type-users"><label for="type-users"><img src="/images/icon/user.png" alt=""></label></div>
+                    <div><input type="radio" name="type" value="posts" id="type-posts" checked><label for="type-posts"><img src="/images/icon/post.png" alt=""></label></div>
                 </div>
             </form>
-            <!-- User Menu Dropdown -->
-            <div class="user-menu-container">
-                <button class="user-menu-trigger">
-                    <img src="/images/avatar.png" alt="Avatar" class="user-avatar">
-                    
-                    <span class="user-name">Kiritolange</span>
-                    <span class="dropdown-arrow">▼</span>
-                </button>
-                <div class="user-menu-dropdown">
-                    <div class="menu-section">
-                        <p class="menu-section-title">CONTENU</p>
+            <div id="headerAuth"></div>
+        </div>
+    </header>
 
-                        <a href="/profil" class="menu-icon-item">
-                            <img src="/images/icon/user.png" alt="Profil">
-                            Profil
-                        </a>
+    <div class="container">
+        <main>
+            <div class="search-page">
+                <div class="search-panel">
+                    <div class="search-panel-header">
+                        <h1>Recherche</h1>
                     </div>
-                    <div class="menu-section">
-                        <p class="menu-section-title">PARAMÈTRES</p>
-                        <a href="/profil/edit" class="menu-icon-item">
-                            <img src="/images/icon/settings.png" alt="Profil">
-                            Paramètres du compte
-                        </a>
-                        <a href="/logout" class="menu-icon-item logout">
-                            <img src="/images/icon/logout.png" alt="Profil">
-                            Déconnexion
-                        </a>
+                    <div id="results" style="padding:1rem;">
+                        <p style="color:#8d9aac;">Entrez un terme pour rechercher.</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </header>
-    
-    <!-- Page content -->
-    <div class="container">
-        <main class="content search-page">
-            <section class="search-panel">
-                <div class="search-panel-header">
-                    <h1>Recherche</h1>
-                    <p>Rechercher des sujets, des messages ou des membres sur le forum.</p>
-                </div>
-                <form class="search-page-form" action="/search" method="get">
-                    <input type="search" name="q" placeholder="Rechercher..." value="">
-                    <select name="type" class="search-type-filter">
-                        <option value="All">Tout</option>
-                        <option value="posts">Sujets</option>
-                        <option value="users">Utilisateurs</option>
-                        <option value="messages">Messages</option>
-                    </select>
-                    <button type="submit">Rechercher</button>
-                </form>
-                <div class="search-results-header">
-                    <h2>Résultats de recherche</h2>
-                    <label>
-                        Trier par
-                        <select name="sort">
-                            <option>Pertinence</option>
-                            <option>Plus récent</option>
-                            <option>Plus ancien</option>
-                            <option>Plus vus</option>
-                        </select>
-                    </label>
-                </div>
-                <article class="search-result">
-
-                </article>
-
-            <aside class="search-sidebar">
-                <h2>Filtres</h2>
-                
-                <div class="filter-box">
-                    <h3>Catégorie</h3>
-                    <select>
-                        <option>Tous</option>
-                        <option>Discussions Générales</option>
-                        <option>Aide & Questions</option>
-                        <option>Annonces</option>
-                    </select>
-                </div>
-                <div class="filter-box">
-                    <h3>Auteur</h3>
-                    <input type="text" placeholder="Nom du membre">
-                </div>
-                <div class="filter-box">
-                    <h3>Date</h3>
-                    <select>
-                        <option>Toutes</option>
-                        <option>Dernières 24h</option>
-                        <option>Dernière semaine</option>
-                        <option>Dernier mois</option>
-                    </select>
-                </div>
-            </aside>
         </main>
     </div>
 
-    <!-- Page bottom -->
-    <footer class="site-footer">
-        <p>&copy; 2026 Fake Forum. ANY rights reserved.</p>
-    </footer>
+    <footer class="site-footer"><p>&copy; 2026 Forum.</p></footer>
+
     <script>
-    // Search form focus
-    document.querySelector('.search-input').addEventListener('focus', function () {
-        document.querySelector('.search-form').classList.add('focus');
-    });
-    document.querySelector('.search-input').addEventListener('blur', function () {
-        document.querySelector('.search-form').classList.remove('focus');
-    });
+    function escHtml(str) {
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
 
-    // User menu dropdown
-    const userMenuTrigger = document.querySelector('.user-menu-trigger');
-    const userMenuDropdown = document.querySelector('.user-menu-dropdown');
-
-    userMenuTrigger.addEventListener('click', function(e) {
-        e.stopPropagation();
-        userMenuDropdown.classList.toggle('active');
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.user-menu-container')) {
-            userMenuDropdown.classList.remove('active');
+    async function init() {
+        const user = await fetch('/api/me').then(r => r.json());
+        const el = document.getElementById('headerAuth');
+        if (user) {
+            el.innerHTML = `<nav class="header-nav"><a href="/profil" class="nav-link">${user.username}</a><a href="/logout" class="nav-link">Déconnexion</a></nav>`;
+        } else {
+            el.innerHTML = `<nav class="header-nav"><a href="/connexion" class="nav-link">Connexion</a><a href="/inscription" class="nav-link">Inscription</a></nav>`;
         }
+
+        const params = new URLSearchParams(location.search);
+        const q = params.get('q');
+        const type = params.get('type') || 'posts';
+
+        if (q) {
+            document.getElementById('searchInput').value = q;
+            if (type === 'users') document.getElementById('type-users').checked = true;
+            search(q, type);
+        }
+    }
+
+    document.getElementById('searchForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const q = document.getElementById('searchInput').value.trim();
+        const type = document.querySelector('input[name="type"]:checked').value;
+        if (!q) return;
+        history.pushState(null, '', `/search?q=${encodeURIComponent(q)}&type=${type}`);
+        search(q, type);
     });
 
-    // Close dropdown when clicking on a link
-    document.querySelectorAll('.menu-item').forEach(item => {
-        item.addEventListener('click', function() {
-            userMenuDropdown.classList.remove('active');
-        });
-    });
+    async function search(q, type) {
+        const results = await fetch(`/api/search?q=${encodeURIComponent(q)}&type=${type}`).then(r => r.json());
+        const el = document.getElementById('results');
+
+        if (results.length === 0) {
+            el.innerHTML = '<p style="color:#8d9aac;padding:1rem;">Aucun résultat.</p>';
+            return;
+        }
+
+        if (type === 'users') {
+            el.innerHTML = results.map(u => `
+                <div class="search-result">
+                    <div class="result-content">
+                        <h3 style="color:#44c3cc;">${escHtml(u.username)}</h3>
+                        <p class="result-meta">Membre depuis le ${new Date(u.created_at).toLocaleDateString('fr-FR')}</p>
+                    </div>
+                </div>`).join('');
+        } else {
+            el.innerHTML = results.map(p => `
+                <a href="/topic/${p.id}" style="text-decoration:none;">
+                    <div class="search-result">
+                        <div class="result-stats">
+                            <span>${p.comment_count}</span><small>réponses</small>
+                        </div>
+                        <div class="result-content">
+                            <h3>${escHtml(p.title)}</h3>
+                            <p class="result-meta"><strong>${escHtml(p.username)}</strong> · ${escHtml(p.category)} · ${new Date(p.created_at).toLocaleDateString('fr-FR')}</p>
+                            <p>${escHtml(p.body).substring(0, 150)}...</p>
+                        </div>
+                    </div>
+                </a>`).join('');
+        }
+    }
+
+    init();
     </script>
 </body>
 </html>

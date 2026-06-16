@@ -1,148 +1,81 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
     <title>Profil - Forum</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
-
-<body class="page">
-
-<script>
-  window.PROFILE = JSON.parse(`{{PROFILE_JSON}}`);
-</script>
-
-<header class="site-header">
-    <div class="header-content">
-
-        <div class="header-logo">
-            <a href="/home" class="brand-title">Forum</a>
+<body>
+    <header class="site-header">
+        <div class="header-content">
+            <div class="header-logo"><a href="/home" class="brand-title">Forum</a></div>
+            <div id="headerAuth"></div>
         </div>
+    </header>
 
-        <form class="search-form" action="/search" method="get">
-            <button type="submit" class="search-button">
-                <img src="/images/icon/search.png" alt="Recherche">
-            </button>
-
-            <input type="search" name="q" placeholder="Rechercher..." class="search-input">
-
-            <div class="search-option">
-                <div>
-                    <input type="radio" name="type" value="users" id="type-users">
-                    <label for="type-users">
-                        <img src="/images/icon/user.png" alt="Utilisateurs">
-                    </label>
-                </div>
-
-                <div>
-                    <input type="radio" name="type" value="posts" id="type-posts" checked>
-                    <label for="type-posts">
-                        <img src="/images/icon/post.png" alt="Posts">
-                    </label>
-                </div>
-            </div>
-        </form>
-
-        <div class="user-menu-container">
-            <button class="user-menu-trigger">
-                <img src="/images/avatar.png" class="user-avatar">
-                <span class="user-name" id="usernameDisplay"></span>
-                <span class="dropdown-arrow">▼</span>
-            </button>
-
-            <div class="user-menu-dropdown">
-                <div class="menu-section">
-                    <p class="menu-section-title">CONTENU</p>
-
-                    <a href="/profil" class="menu-icon-item">
-                        <img src="/images/icon/user.png">
-                        Profil
-                    </a>
-                </div>
-
-                <div class="menu-section">
-                    <p class="menu-section-title">PARAMÈTRES</p>
-
-                    <a href="/profil/edit" class="menu-icon-item">
-                        <img src="/images/icon/settings.png">
-                        Paramètres
-                    </a>
-
-                    <a href="/logout" class="menu-icon-item logout">
-                        <img src="/images/icon/logout.png">
-                        Déconnexion
-                    </a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</header>
-
-<div class="container">
-<main class="content profile-page">
-
-<!-- ACTION BAR -->
-<div id="owner-bar" class="profile-action-bar">
-    <a href="/profil/settings">⚙️ Paramètres</a>
-    <a href="/profil/edit" class="primary">✎ Modifier</a>
-    <a href="/logout">🚪 Déconnexion</a>
-</div>
-
-<div id="visitor-bar" class="profile-action-bar">
-    <button>➕ Suivre</button>
-    <button>📜 Activité</button>
-</div>
-
-<section class="profile-banner">
-
-    <div class="profile-info">
-        <div class="profile-avatar">
-            <img src="/images/avatar.png">
-        </div>
-
-        <div class="profile-details">
-            <h2 id="profileUsername"></h2>
-        </div>
+    <div class="container">
+        <main>
+            <div id="profilContent"></div>
+        </main>
     </div>
 
-</section>
+    <footer class="site-footer"><p>&copy; 2026 Forum.</p></footer>
 
-</main>
-</div>
+    <script>
+    function escHtml(str) {
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
 
-<footer class="site-footer">
-    <p>&copy; 2026 Forum</p>
-</footer>
+    async function init() {
+        const data = await fetch('/api/profil').then(r => r.json());
+        if (data.error) return location.href = '/connexion';
 
-<script>
-// PROFILE DATA
-const profile = window.PROFILE;
+        const { user, posts } = data;
 
-// username affichage
-document.getElementById("usernameDisplay").textContent = profile.username;
-document.getElementById("profileUsername").textContent = profile.username;
+        document.getElementById('headerAuth').innerHTML = `<nav class="header-nav">
+            <a href="/home" class="nav-link">Accueil</a>
+            <a href="/logout" class="nav-link">Déconnexion</a>
+        </nav>`;
 
-// owner / visitor
-const isOwner = profile.isOwner;
+        document.getElementById('profilContent').innerHTML = `
+            <div class="profile-banner">
+                <div class="profile-info">
+                    <div class="profile-avatar"><img src="/images/icon/user.png" alt="Avatar"></div>
+                    <div class="profile-details">
+                        <h1 class="profile-username">${escHtml(user.username)}</h1>
+                        <p class="profile-status">${escHtml(user.email)}</p>
+                        <p style="color:#8d9aac;font-size:0.85rem;margin-top:0.3rem;">Membre depuis le ${new Date(user.created_at).toLocaleDateString('fr-FR')}</p>
+                    </div>
+                </div>
+                <div class="profile-stats-bar">
+                    <div class="stat-item">
+                        <span class="stat-label">Posts</span>
+                        <span class="stat-value">${posts.length}</span>
+                    </div>
+                </div>
+            </div>
 
-document.getElementById("owner-bar").style.display = isOwner ? "flex" : "none";
-document.getElementById("visitor-bar").style.display = isOwner ? "none" : "flex";
+            <div class="profile-activity">
+                <h2>Mes posts</h2>
+                <div class="activity-container">
+                    ${posts.length === 0 ? '<p style="color:#8d9aac;">Aucun post publié.</p>' :
+                    posts.map(p => `
+                        <div class="activity-item">
+                            <a href="/topic/${p.id}" style="text-decoration:none;">
+                                <h3>${escHtml(p.title)}</h3>
+                            </a>
+                            <p>${escHtml(p.category)} · ${new Date(p.created_at).toLocaleDateString('fr-FR')} · ▲ ${p.likes} ▼ ${p.dislikes} · 💬 ${p.comment_count}</p>
+                        </div>`).join('')}
+                </div>
+            </div>
 
-// dropdown
-const trigger = document.querySelector('.user-menu-trigger');
-const dropdown = document.querySelector('.user-menu-dropdown');
+            <div class="profile-footer-actions">
+                <a href="/logout" class="logout-button">Se déconnecter</a>
+            </div>`;
+    }
 
-trigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    dropdown.classList.toggle('active');
-});
-
-document.addEventListener('click', () => {
-    dropdown.classList.remove('active');
-});
-</script>
-
+    init();
+    </script>
 </body>
 </html>

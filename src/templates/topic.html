@@ -1,35 +1,206 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic - Forum</title>
     <link rel="stylesheet" href="/css/style.css">
-    <title>Topic</title>
 </head>
-
 <body>
+    <header class="site-header">
+        <div class="header-content">
+            <div class="header-logo"><a href="/home" class="brand-title">Forum</a></div>
+            <form class="search-form" action="/search" method="get">
+                <button type="submit" class="search-button"><img src="/images/icon/search.png" alt=""></button>
+                <input type="search" name="q" placeholder="Rechercher..." class="search-input">
+                <div class="search-option">
+                    <div><input type="radio" name="type" value="users" id="type-users"><label for="type-users"><img src="/images/icon/user.png" alt=""></label></div>
+                    <div><input type="radio" name="type" value="posts" id="type-posts" checked><label for="type-posts"><img src="/images/icon/post.png" alt=""></label></div>
+                </div>
+            </form>
+            <div id="headerAuth"></div>
+        </div>
+    </header>
 
-<script>
-  const post = JSON.parse(`{{POST_JSON}}`);
-</script>
+    <div class="container">
+        <main>
+            <p style="margin-bottom:1rem;"><a href="/home" style="color:#44c3cc;text-decoration:none;">← Retour</a></p>
+            <div id="topicContent"></div>
+            <div id="commentsSection"></div>
+        </main>
+    </div>
 
-<header>
-  <h1 id="title"></h1>
-</header>
+    <footer class="site-footer"><p>&copy; 2026 Forum.</p></footer>
 
-<main>
-  <div>
-    <p id="body"></p>
-    <small id="meta"></small>
-  </div>
-</main>
+    <script>
+    const topicId = location.pathname.split('/').pop();
+    let currentUser = null;
 
-<script>
-document.getElementById("title").textContent = post.title;
-document.getElementById("body").textContent = post.body;
-document.getElementById("meta").textContent =
-  "par " + post.username + " • " + post.category;
-</script>
+    function escHtml(str) {
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
 
+    async function init() {
+        currentUser = await fetch('/api/me').then(r => r.json());
+        renderHeader();
+        loadTopic();
+    }
+
+    function renderHeader() {
+        const el = document.getElementById('headerAuth');
+        if (currentUser) {
+            el.innerHTML = `<div class="user-menu-container">
+                <button class="user-menu-trigger" onclick="this.nextElementSibling.classList.toggle('active')">
+                    <img src="/images/icon/user.png" class="user-avatar" alt="">
+                    <span class="user-name">${currentUser.username}</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="user-menu-dropdown">
+                    <div class="menu-section"><a href="/profil" class="menu-icon-item"><img src="/images/icon/user.png" alt=""> Profil</a></div>
+                    <div class="menu-section"><a href="/logout" class="menu-icon-item logout"><img src="/images/icon/logout.png" alt=""> Déconnexion</a></div>
+                </div>
+            </div>`;
+        } else {
+            el.innerHTML = `<nav class="header-nav"><a href="/connexion" class="nav-link">Connexion</a><a href="/inscription" class="nav-link">Inscription</a></nav>`;
+        }
+    }
+
+    async function loadTopic() {
+        const post = await fetch(`/api/posts/${topicId}`).then(r => r.json());
+        if (post.error) { document.getElementById('topicContent').innerHTML = '<p>Post introuvable.</p>'; return; }
+
+        const isOwner = currentUser && currentUser.id === post.user_id;
+        document.title = post.title + ' - Forum';
+
+        document.getElementById('topicContent').innerHTML = `
+            <div class="post-card" style="margin-bottom:2rem;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                    <div style="flex:1;">
+                        <div style="font-size:0.8rem;color:#44c3cc;font-weight:700;margin-bottom:0.4rem;">${escHtml(post.category)}</div>
+                        <h1 style="color:#fff;font-size:1.5rem;margin:0 0 1rem;">${escHtml(post.title)}</h1>
+                        ${post.image ? `<img src="${post.image}" style="max-width:100%;border-radius:4px;margin-bottom:1rem;" alt="">` : ''}
+                        <p style="color:#cdd6e1;white-space:pre-wrap;" id="postBody">${escHtml(post.body)}</p>
+                    </div>
+                    ${isOwner ? `<div style="display:flex;gap:0.5rem;margin-left:1rem;">
+                        <button onclick="editPost()" style="background:#2a3a4a;border:1px solid #34485c;color:#dce6f2;padding:0.4rem 0.8rem;border-radius:3px;cursor:pointer;">✏️</button>
+                        <button onclick="deletePost()" style="background:#3a1a1a;border:1px solid #5c3434;color:#ff6b6b;padding:0.4rem 0.8rem;border-radius:3px;cursor:pointer;">🗑️</button>
+                    </div>` : ''}
+                </div>
+                <div style="margin-top:1rem;display:flex;align-items:center;gap:1rem;font-size:0.85rem;color:#8d9aac;">
+                    <span>par <strong style="color:#dce6f2;">${escHtml(post.username)}</strong> · ${new Date(post.created_at).toLocaleDateString('fr-FR')}</span>
+                    <button id="likeBtn" onclick="likePost('like')" style="background:transparent;border:none;cursor:pointer;color:${post.userLike==='like'?'#55d37a':'#8d9aac'};font-size:1rem;">▲ <span id="likeCount">${post.likes}</span></button>
+                    <button id="dislikeBtn" onclick="likePost('dislike')" style="background:transparent;border:none;cursor:pointer;color:${post.userLike==='dislike'?'#ff6b6b':'#8d9aac'};font-size:1rem;">▼ <span id="dislikeCount">${post.dislikes}</span></button>
+                </div>
+            </div>`;
+
+        loadComments();
+    }
+
+    async function likePost(type) {
+        if (!currentUser) return location.href = '/connexion';
+        const r = await fetch(`/api/posts/${topicId}/like`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({type}) }).then(r => r.json());
+        document.getElementById('likeCount').textContent = r.likes;
+        document.getElementById('dislikeCount').textContent = r.dislikes;
+        document.getElementById('likeBtn').style.color = r.userLike === 'like' ? '#55d37a' : '#8d9aac';
+        document.getElementById('dislikeBtn').style.color = r.userLike === 'dislike' ? '#ff6b6b' : '#8d9aac';
+    }
+
+    function editPost() {
+        const bodyEl = document.getElementById('postBody');
+        const current = bodyEl.textContent;
+        bodyEl.outerHTML = `<textarea id="editBodyInput" style="width:100%;min-height:120px;background:#151d27;color:#dce6f2;border:1px solid #34485c;border-radius:3px;padding:0.7rem;font-family:inherit;">${escHtml(current)}</textarea>
+        <button onclick="savePost()" style="margin-top:0.5rem;background:#40bdc7;color:#071014;border:none;padding:0.5rem 1rem;border-radius:3px;cursor:pointer;font-weight:700;">Sauvegarder</button>`;
+    }
+
+    async function savePost() {
+        const body = document.getElementById('editBodyInput').value;
+        await fetch(`/api/posts/${topicId}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({title: document.querySelector('h1').textContent, body, categoryId: 1}) });
+        location.reload();
+    }
+
+    async function deletePost() {
+        if (!confirm('Supprimer ce post ?')) return;
+        await fetch(`/api/posts/${topicId}`, { method:'DELETE' });
+        location.href = '/home';
+    }
+
+    async function loadComments() {
+        const comments = await fetch(`/api/posts/${topicId}/comments`).then(r => r.json());
+        const section = document.getElementById('commentsSection');
+
+        let html = `<h2 style="color:#fff;margin-bottom:1rem;">${comments.length} Commentaire${comments.length !== 1 ? 's' : ''}</h2>`;
+
+        html += comments.map(c => {
+            const isOwner = currentUser && currentUser.id === c.user_id;
+            return `<div class="post-card" id="comment-${c.id}" style="margin-bottom:0.8rem;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                    <div style="flex:1;">
+                        <div style="font-size:0.85rem;color:#8d9aac;margin-bottom:0.5rem;">
+                            <strong style="color:#dce6f2;">${escHtml(c.username)}</strong> · ${new Date(c.created_at).toLocaleDateString('fr-FR')}
+                        </div>
+                        <p id="cBody-${c.id}" style="color:#cdd6e1;white-space:pre-wrap;">${escHtml(c.body)}</p>
+                    </div>
+                    ${isOwner ? `<div style="display:flex;gap:0.4rem;margin-left:0.8rem;">
+                        <button onclick="editComment(${c.id})" style="background:#2a3a4a;border:1px solid #34485c;color:#dce6f2;padding:0.3rem 0.6rem;border-radius:3px;cursor:pointer;font-size:0.85rem;">✏️</button>
+                        <button onclick="deleteComment(${c.id})" style="background:#3a1a1a;border:1px solid #5c3434;color:#ff6b6b;padding:0.3rem 0.6rem;border-radius:3px;cursor:pointer;font-size:0.85rem;">🗑️</button>
+                    </div>` : ''}
+                </div>
+                <div style="margin-top:0.6rem;display:flex;gap:0.8rem;">
+                    <button onclick="likeComment(${c.id},'like')" id="clBtn-${c.id}" style="background:transparent;border:none;cursor:pointer;color:${c.userLike==='like'?'#55d37a':'#8d9aac'};">▲ <span id="clCount-${c.id}">${c.likes}</span></button>
+                    <button onclick="likeComment(${c.id},'dislike')" id="cdBtn-${c.id}" style="background:transparent;border:none;cursor:pointer;color:${c.userLike==='dislike'?'#ff6b6b':'#8d9aac'};">▼ <span id="cdCount-${c.id}">${c.dislikes}</span></button>
+                </div>
+            </div>`;
+        }).join('');
+
+        if (currentUser) {
+            html += `<div style="margin-top:1.5rem;">
+                <h3 style="color:#fff;margin-bottom:0.8rem;">Laisser un commentaire</h3>
+                <textarea id="newComment" placeholder="Votre commentaire..." style="width:100%;min-height:100px;background:#161f2a;color:#dce6f2;border:1px solid #34485c;border-radius:3px;padding:0.8rem;font-family:inherit;resize:vertical;"></textarea>
+                <button onclick="submitComment()" style="margin-top:0.5rem;background:#40bdc7;color:#071014;border:none;padding:0.65rem 1.4rem;border-radius:3px;cursor:pointer;font-weight:700;">Envoyer</button>
+            </div>`;
+        } else {
+            html += `<p style="color:#8d9aac;margin-top:1.5rem;"><a href="/connexion" style="color:#44c3cc;">Connectez-vous</a> pour commenter.</p>`;
+        }
+
+        section.innerHTML = html;
+    }
+
+    async function submitComment() {
+        const body = document.getElementById('newComment').value.trim();
+        if (!body) return;
+        await fetch(`/api/posts/${topicId}/comments`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({body}) });
+        loadComments();
+    }
+
+    async function likeComment(id, type) {
+        if (!currentUser) return location.href = '/connexion';
+        const r = await fetch(`/api/comments/${id}/like`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({type}) }).then(r => r.json());
+        document.getElementById(`clCount-${id}`).textContent = r.likes;
+        document.getElementById(`cdCount-${id}`).textContent = r.dislikes;
+        document.getElementById(`clBtn-${id}`).style.color = r.userLike === 'like' ? '#55d37a' : '#8d9aac';
+        document.getElementById(`cdBtn-${id}`).style.color = r.userLike === 'dislike' ? '#ff6b6b' : '#8d9aac';
+    }
+
+    function editComment(id) {
+        const el = document.getElementById(`cBody-${id}`);
+        const cur = el.textContent;
+        el.outerHTML = `<textarea id="cedit-${id}" style="width:100%;min-height:80px;background:#151d27;color:#dce6f2;border:1px solid #34485c;border-radius:3px;padding:0.6rem;font-family:inherit;">${escHtml(cur)}</textarea>
+        <button onclick="saveComment(${id})" style="margin-top:0.4rem;background:#40bdc7;color:#071014;border:none;padding:0.45rem 0.9rem;border-radius:3px;cursor:pointer;font-weight:700;">Sauvegarder</button>`;
+    }
+
+    async function saveComment(id) {
+        const body = document.getElementById(`cedit-${id}`).value;
+        await fetch(`/api/comments/${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({body}) });
+        loadComments();
+    }
+
+    async function deleteComment(id) {
+        if (!confirm('Supprimer ce commentaire ?')) return;
+        await fetch(`/api/comments/${id}`, { method:'DELETE' });
+        loadComments();
+    }
+
+    init();
+    </script>
 </body>
 </html>

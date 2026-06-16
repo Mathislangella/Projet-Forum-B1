@@ -3,184 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouveau sujet - Forum</title>
     <link rel="stylesheet" href="/css/style.css">
-    <title>Créer un sujet - Forum</title>
 </head>
-<body class="page">
-
-    <!-- Page top -->
+<body>
     <header class="site-header">
         <div class="header-content">
-
-            <div class="header-logo">
-                <a href="/home" class="brand-title">Forum</a>
-            </div>
-
-            <form class="search-form" action="/search" method="get">
-                <button type="submit" class="search-button">
-                    <img src="/images/icon/search.png" alt="Recherche">
-                </button>
-
-                <input type="search" name="q" placeholder="Rechercher..." class="search-input">
-
-                <div class="search-option">
-                    <div>
-                        <input type="radio" name="type" value="users" id="type-users">
-                        <label for="type-users">
-                            <img src="/images/icon/user.png" alt="Utilisateurs">
-                        </label>
-                    </div>
-
-                    <div>
-                        <input type="radio" name="type" value="posts" id="type-posts" checked>
-                        <label for="type-posts">
-                            <img src="/images/icon/post.png" alt="Posts">
-                        </label>
-                    </div>
-                </div>
-            </form>
-
-            <!-- User Menu Dropdown -->
-            <div class="user-menu-container">
-                <button class="user-menu-trigger">
-                    <img src="/images/avatar.png" alt="Avatar" class="user-avatar">
-                    <span class="user-name">Kiritolange</span>
-                    <span class="dropdown-arrow">▼</span>
-                </button>
-
-                <div class="user-menu-dropdown">
-
-                    <div class="menu-section">
-                        <p class="menu-section-title">CONTENU</p>
-
-                        <a href="/profil" class="menu-icon-item">
-                            <img src="/images/icon/user.png" alt="Profil">
-                            Profil
-                        </a>
-                    </div>
-
-                    <div class="menu-section">
-                        <p class="menu-section-title">PARAMÈTRES</p>
-
-                        <a href="/profil/edit" class="menu-icon-item">
-                            <img src="/images/icon/settings.png" alt="Paramètres">
-                            Paramètres du compte
-                        </a>
-
-                        <a href="/logout" class="menu-icon-item logout">
-                            <img src="/images/icon/logout.png" alt="Déconnexion">
-                            Déconnexion
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-
+            <div class="header-logo"><a href="/home" class="brand-title">Forum</a></div>
+            <div id="headerAuth"></div>
         </div>
     </header>
 
-    <!-- Page content -->
     <div class="container">
-
-        <main class="content topic-create-page">
-
-            <section class="topic-header">
-                <h1>Créer un nouveau sujet</h1>
-                <p>Partagez une question, une idée ou lancez une discussion avec la communauté.</p>
-            </section>
-
-            <section class="topic-create-section">
-
-                <form class="topic-create-form" action="/topic/create" method="post">
-
+        <main>
+            <p style="margin-bottom:1rem;"><a href="/home" style="color:#44c3cc;text-decoration:none;">← Retour</a></p>
+            <div class="form-container" style="max-width:700px;">
+                <h2>Créer un sujet</h2>
+                <div id="message"></div>
+                <form id="createForm" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="title">Titre du sujet</label>
-
-                        <input
-                            type="text"
-                            id="title"
-                            name="title"
-                            maxlength="100"
-                            placeholder="Ex : Comment optimiser un jeu Roblox ?"
-                            required
-                        >
+                        <label>Titre</label>
+                        <input type="text" name="title" id="title" required placeholder="Titre de votre sujet">
                     </div>
-
                     <div class="form-group">
-                        <label for="category">Catégorie</label>
-
-                        <select id="category" name="categoryId" required>
-                            <option value="">Sélectionner une catégorie</option>
-                            <option value="1">Général</option>
-                            <option value="2">Programmation</option>
-                            <option value="3">Jeux vidéo</option>
+                        <label>Catégorie</label>
+                        <select name="categoryId" id="categoryId" style="width:100%;padding:0.75rem;background:#151d27;color:#dce6f2;border:1px solid #34485c;border-radius:3px;">
+                            <option value="">Choisir une catégorie...</option>
                         </select>
                     </div>
-
                     <div class="form-group">
-                        <label for="body">Contenu</label>
-
-                        <textarea
-                            id="body"
-                            name="body"
-                            rows="12"
-                            placeholder="Décrivez votre sujet..."
-                            required
-                        ></textarea>
+                        <label>Contenu</label>
+                        <textarea name="body" id="body" required placeholder="Écrivez votre message..." style="width:100%;min-height:200px;background:#151d27;color:#dce6f2;border:1px solid #34485c;border-radius:3px;padding:0.75rem;font-family:inherit;resize:vertical;"></textarea>
                     </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="action-button">
-                            Publier le sujet
-                        </button>
+                    <div class="form-group">
+                        <label>Image (optionnel — JPEG, PNG, GIF, max 20Mo)</label>
+                        <input type="file" name="image" id="image" accept="image/jpeg,image/png,image/gif" style="color:#dce6f2;">
                     </div>
-
+                    <button type="submit">Publier</button>
                 </form>
-
-            </section>
-
+            </div>
         </main>
-
     </div>
 
-    <!-- Page bottom -->
-    <footer class="site-footer">
-        <p>&copy; 2026 Fake Forum. ANY rights reserved.</p>
-    </footer>
+    <footer class="site-footer"><p>&copy; 2026 Forum.</p></footer>
 
     <script>
+    async function init() {
+        const user = await fetch('/api/me').then(r => r.json());
+        if (!user) return location.href = '/connexion';
 
-    // Search form focus
-    document.querySelector('.search-input').addEventListener('focus', function () {
-        document.querySelector('.search-form').classList.add('focus');
-    });
+        document.getElementById('headerAuth').innerHTML = `<nav class="header-nav">
+            <a href="/profil" class="nav-link">${user.username}</a>
+            <a href="/logout" class="nav-link">Déconnexion</a>
+        </nav>`;
 
-    document.querySelector('.search-input').addEventListener('blur', function () {
-        document.querySelector('.search-form').classList.remove('focus');
-    });
+        const cats = await fetch('/api/categories').then(r => r.json());
+        const sel = document.getElementById('categoryId');
+        cats.forEach(c => sel.innerHTML += `<option value="${c.id}">${c.name}</option>`);
+    }
 
-    // User menu dropdown
-    const userMenuTrigger = document.querySelector('.user-menu-trigger');
-    const userMenuDropdown = document.querySelector('.user-menu-dropdown');
+    document.getElementById('createForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const msg = document.getElementById('message');
+        const formData = new FormData(e.target);
 
-    userMenuTrigger.addEventListener('click', function(e) {
-        e.stopPropagation();
-        userMenuDropdown.classList.toggle('active');
-    });
+        const res = await fetch('/api/posts', { method: 'POST', body: formData });
+        const data = await res.json();
 
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.user-menu-container')) {
-            userMenuDropdown.classList.remove('active');
+        if (!res.ok) {
+            msg.textContent = data.error || 'Erreur';
+            msg.style.color = '#ff6b6b';
+            return;
         }
+        location.href = '/home';
     });
 
-    document.querySelectorAll('.menu-icon-item').forEach(item => {
-        item.addEventListener('click', function() {
-            userMenuDropdown.classList.remove('active');
-        });
-    });
-
+    init();
     </script>
-
 </body>
 </html>

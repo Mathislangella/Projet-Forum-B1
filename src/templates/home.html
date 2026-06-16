@@ -3,132 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
     <title>Accueil - Forum</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body class="page">
-    <!-- Page top -->
     <header class="site-header">
         <div class="header-content">
-            <!-- Logo home -->
             <div class="header-logo">
                 <a href="/home" class="brand-title">Forum</a>
             </div>
-            <!-- Search Bar -->
             <form class="search-form" action="/search" method="get">
                 <button type="submit" class="search-button">
                     <img src="/images/icon/search.png" alt="Recherche">
                 </button>
-
                 <input type="search" name="q" placeholder="Rechercher..." class="search-input">
-
                 <div class="search-option">
                     <div>
                         <input type="radio" name="type" value="users" id="type-users">
-                        <label for="type-users">
-                            <img src="/images/icon/user.png" alt="Utilisateurs">
-                        </label>
+                        <label for="type-users"><img src="/images/icon/user.png" alt="Utilisateurs"></label>
                     </div>
-
                     <div>
                         <input type="radio" name="type" value="posts" id="type-posts" checked>
-                        <label for="type-posts">
-                            <img src="/images/icon/post.png" alt="Posts">
-                        </label>
+                        <label for="type-posts"><img src="/images/icon/post.png" alt="Posts"></label>
                     </div>
                 </div>
             </form>
-            <!-- User Menu Dropdown -->
-            <div class="user-menu-container">
-                <button class="user-menu-trigger">
-                    <img src="/images/avatar.png" alt="Avatar" class="user-avatar">
-                    <span class="user-name">Kiritolange</span>
-                    <span class="dropdown-arrow">▼</span>
-                </button>
-                <div class="user-menu-dropdown">
-                    <div class="menu-section">
-                        <p class="menu-section-title">CONTENU</p>
-
-                        <a href="/profil" class="menu-icon-item">
-                            <img src="/images/icon/user.png" alt="Profil">
-                            Profil
-                        </a>
-                    </div>
-                    <div class="menu-section">
-                        <p class="menu-section-title">PARAMÈTRES</p>
-                        <a href="/profil/edit" class="menu-icon-item">
-                            <img src="/images/icon/settings.png" alt="Profil">
-                            Paramètres du compte
-                        </a>
-                        <a href="/logout" class="menu-icon-item logout">
-                            <img src="/images/icon/logout.png" alt="Profil">
-                            Déconnexion
-                        </a>
-                    </div>
-                </div>
-            </div>
-
+            <div id="headerAuth"></div>
         </div>
     </header>
 
-    <!-- Page content -->
     <div class="container">
-       <main class="content">
+        <main class="content">
             <section class="home-header">
                 <h1>Accueil</h1>
                 <p>Bienvenue sur le forum.</p>
             </section>
 
-            <section class="forum-actions">
-                <a href="/topic/create" class="action-button">
-                    <img src="/images/icon/add.png" alt="Add">
-                     Nouveau sujet
-                </a>
-            </section>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:1.5rem;">
+                <div id="actionCreate"></div>
+                <select id="filterSelect" style="background:#161f2a;color:#dce6f2;border:1px solid #34485c;border-radius:3px;padding:0.5rem 0.8rem;cursor:pointer;">
+                    <option value="">Tous les posts</option>
+                    <option value="mine">Mes posts</option>
+                    <option value="liked">Posts likés</option>
+                </select>
+                <select id="categorySelect" style="background:#161f2a;color:#dce6f2;border:1px solid #34485c;border-radius:3px;padding:0.5rem 0.8rem;cursor:pointer;">
+                    <option value="">Toutes catégories</option>
+                </select>
+            </div>
 
-            <section class="recent-posts">
-            </section>
-
+            <section class="recent-posts" id="postsList"></section>
         </main>
     </div>
 
-    <!-- Page bottom -->
     <footer class="site-footer">
-        <p>&copy; 2026 Fake Forum. ANY rights reserved.</p>
+        <p>&copy; 2026 Forum. Tous droits réservés.</p>
     </footer>
 
     <script>
-    // Search form focus
-    document.querySelector('.search-input').addEventListener('focus', function () {
-        document.querySelector('.search-form').classList.add('focus');
-    });
+    let currentUser = null;
 
-    document.querySelector('.search-input').addEventListener('blur', function () {
-        document.querySelector('.search-form').classList.remove('focus');
-    });
+    async function init() {
+        currentUser = await fetch('/api/me').then(r => r.json());
 
-    // User menu dropdown
-    const userMenuTrigger = document.querySelector('.user-menu-trigger');
-    const userMenuDropdown = document.querySelector('.user-menu-dropdown');
-
-    userMenuTrigger.addEventListener('click', function(e) {
-        e.stopPropagation();
-        userMenuDropdown.classList.toggle('active');
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.user-menu-container')) {
-            userMenuDropdown.classList.remove('active');
+        // Header auth
+        const headerAuth = document.getElementById('headerAuth');
+        if (currentUser) {
+            headerAuth.innerHTML = `
+                <div class="user-menu-container">
+                    <button class="user-menu-trigger" onclick="toggleMenu()">
+                        <img src="/images/icon/user.png" class="user-avatar" alt="">
+                        <span class="user-name">${currentUser.username}</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="user-menu-dropdown" id="userDropdown">
+                        <div class="menu-section">
+                            <a href="/profil" class="menu-icon-item">
+                                <img src="/images/icon/user.png" alt=""> Profil
+                            </a>
+                        </div>
+                        <div class="menu-section">
+                            <a href="/logout" class="menu-icon-item logout">
+                                <img src="/images/icon/logout.png" alt=""> Déconnexion
+                            </a>
+                        </div>
+                    </div>
+                </div>`;
+            document.getElementById('actionCreate').innerHTML = `<a href="/topic/create" class="action-button"><img src="/images/icon/add.png" alt=""> Nouveau sujet</a>`;
+        } else {
+            headerAuth.innerHTML = `<nav class="header-nav"><a href="/connexion" class="nav-link">Connexion</a><a href="/inscription" class="nav-link">Inscription</a></nav>`;
         }
+
+        // Catégories
+        const cats = await fetch('/api/categories').then(r => r.json());
+        const catSelect = document.getElementById('categorySelect');
+        cats.forEach(c => {
+            catSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+        });
+
+        loadPosts();
+
+        // Filtres
+        document.getElementById('filterSelect').addEventListener('change', loadPosts);
+        document.getElementById('categorySelect').addEventListener('change', () => {
+            document.getElementById('filterSelect').value = '';
+            loadPosts();
+        });
+    }
+
+    function toggleMenu() {
+        document.getElementById('userDropdown').classList.toggle('active');
+    }
+    document.addEventListener('click', e => {
+        const d = document.getElementById('userDropdown');
+        if (d && !e.target.closest('.user-menu-container')) d.classList.remove('active');
     });
 
-    // Close dropdown when clicking on a link
-    document.querySelectorAll('.menu-item').forEach(item => {
-        item.addEventListener('click', function() {
-            userMenuDropdown.classList.remove('active');
-        });
-    });
+    async function loadPosts() {
+        const filter = document.getElementById('filterSelect').value;
+        const cat = document.getElementById('categorySelect').value;
+        let url = '/api/posts';
+        if (filter) url += `?filter=${filter}`;
+        else if (cat) url += `?filter=${cat}`;
+
+        const posts = await fetch(url).then(r => r.json());
+        const list = document.getElementById('postsList');
+
+        if (posts.length === 0) {
+            list.innerHTML = '<p style="color:#8d9aac;text-align:center;padding:2rem;">Aucun post trouvé.</p>';
+            return;
+        }
+
+        list.innerHTML = posts.map(p => `
+            <div class="post-card" style="cursor:pointer;display:block;" onclick="window.location='/topic/${p.id}'">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;">
+                    <div style="flex:1;">
+                        <div style="font-size:0.8rem;color:#44c3cc;font-weight:700;margin-bottom:0.3rem;">${p.category}</div>
+                        <h3 style="color:#fff;margin:0 0 0.4rem;font-size:1.05rem;">${escHtml(p.title)}</h3>
+                        <p style="color:#aeb9c7;font-size:0.9rem;margin:0;">${escHtml(p.body).substring(0, 120)}${p.body.length > 120 ? '...' : ''}</p>
+                    </div>
+                    <div style="text-align:center;min-width:60px;font-size:0.82rem;color:#8d9aac;">
+                        <div style="color:#55d37a;font-weight:700;">▲ ${p.likes}</div>
+                        <div style="color:#ff6b6b;font-weight:700;">▼ ${p.dislikes}</div>
+                        <div style="margin-top:0.3rem;">💬 ${p.comment_count}</div>
+                    </div>
+                </div>
+                <div style="margin-top:0.6rem;font-size:0.8rem;color:#8d9aac;">
+                    par <strong style="color:#dce6f2;">${escHtml(p.username)}</strong> · ${new Date(p.created_at).toLocaleDateString('fr-FR')}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function escHtml(str) {
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    init();
     </script>
 </body>
 </html>
